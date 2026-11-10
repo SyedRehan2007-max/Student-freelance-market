@@ -1,7 +1,6 @@
-{% load static %}
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,7 +14,7 @@
     <!-- Custom CSS File -->
     <link rel="stylesheet" href="{% static 'marketplace/css/style.css' %}">
 
-    <!-- Embedded Core CSS: Guarantees full styling on Cloud Hosting / Render even when external static files are delayed -->
+    <!-- Embedded Core CSS (Guarantees full Indigo styling on Cloud Hosting & Render) -->
     <style>
         :root {
             --primary-color: #4f46e5;
@@ -72,12 +71,12 @@
             color: var(--primary-color);
         }
 
-        /* Hero Section Gradient - Matches Image 1 */
+        /* Hero Section Gradient */
         .hero-section {
-            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #4338ca 100%) !important;
-            color: #ffffff !important;
+            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #4338ca 100%);
+            color: #ffffff;
             padding: 4.5rem 0;
-            border-radius: 1rem !important;
+            border-radius: 1rem;
             margin-bottom: 2.5rem;
             box-shadow: 0 10px 25px -5px rgba(49, 46, 129, 0.3);
         }
@@ -86,12 +85,12 @@
             font-size: 2.75rem;
             font-weight: 800;
             line-height: 1.2;
-            color: #ffffff !important;
+            color: #ffffff;
         }
 
         .hero-section p {
             font-size: 1.15rem;
-            color: #e0e7ff !important;
+            color: #e0e7ff;
             max-width: 650px;
         }
 
@@ -118,6 +117,7 @@
             font-size: 0.925rem;
             display: -webkit-box;
             -webkit-line-clamp: 3;
+            line-clamp: 3;
             -webkit-box-orient: vertical;
             overflow: hidden;
             margin-bottom: 1rem;
@@ -145,23 +145,23 @@
         }
 
         .stat-icon.bg-indigo {
-            background-color: #e0e7ff !important;
-            color: #4338ca !important;
+            background-color: #e0e7ff;
+            color: #4338ca;
         }
 
         .stat-icon.bg-emerald {
-            background-color: #d1fae5 !important;
-            color: #059669 !important;
+            background-color: #d1fae5;
+            color: #059669;
         }
 
         .stat-icon.bg-amber {
-            background-color: #fef3c7 !important;
-            color: #d97706 !important;
+            background-color: #fef3c7;
+            color: #d97706;
         }
 
         .stat-icon.bg-rose {
-            background-color: #ffe4e6 !important;
-            color: #e11d48 !important;
+            background-color: #ffe4e6;
+            color: #e11d48;
         }
 
         .stat-value {
@@ -262,7 +262,6 @@
     </style>
     {% block extra_css %}{% endblock %}
 </head>
-
 <body>
 
     <!-- ===================================================================
@@ -283,121 +282,107 @@
             <div class="collapse navbar-collapse" id="navbarContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}"
-                            href="{% url 'home' %}">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" href="{% url 'home' %}">
                             <i class="bi bi-house-door"></i> Home
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {% if request.resolver_match.url_name == 'projects' %}active{% endif %}"
-                            href="{% url 'projects' %}">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'projects' %}active{% endif %}" href="{% url 'projects' %}">
                             <i class="bi bi-search"></i> Browse Projects
                         </a>
                     </li>
 
                     {% if user.is_authenticated %}
-                    {% if user.profile.role == 'Student' %}
-                    <li class="nav-item">
-                        <a class="nav-link {% if request.resolver_match.url_name == 'student_dashboard' %}active{% endif %}"
-                            href="{% url 'student_dashboard' %}">
-                            <i class="bi bi-speedometer2"></i> Dashboard
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {% if request.resolver_match.url_name == 'my_proposals' %}active{% endif %}"
-                            href="{% url 'my_proposals' %}">
-                            <i class="bi bi-file-earmark-text"></i> My Proposals
-                        </a>
-                    </li>
-                    {% elif user.profile.role == 'Client' %}
-                    <li class="nav-item">
-                        <a class="nav-link {% if request.resolver_match.url_name == 'client_dashboard' %}active{% endif %}"
-                            href="{% url 'client_dashboard' %}">
-                            <i class="bi bi-speedometer2"></i> Dashboard
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {% if request.resolver_match.url_name == 'post_project' %}active{% endif %}"
-                            href="{% url 'post_project' %}">
-                            <i class="bi bi-plus-circle"></i> Post Project
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {% if request.resolver_match.url_name == 'my_projects' %}active{% endif %}"
-                            href="{% url 'my_projects' %}">
-                            <i class="bi bi-folder2-open"></i> My Projects
-                        </a>
-                    </li>
-                    {% endif %}
+                        {% if user.profile.role == 'Student' %}
+                            <li class="nav-item">
+                                <a class="nav-link {% if request.resolver_match.url_name == 'student_dashboard' %}active{% endif %}" href="{% url 'student_dashboard' %}">
+                                    <i class="bi bi-speedometer2"></i> Dashboard
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {% if request.resolver_match.url_name == 'my_proposals' %}active{% endif %}" href="{% url 'my_proposals' %}">
+                                    <i class="bi bi-file-earmark-text"></i> My Proposals
+                                </a>
+                            </li>
+                        {% elif user.profile.role == 'Client' %}
+                            <li class="nav-item">
+                                <a class="nav-link {% if request.resolver_match.url_name == 'client_dashboard' %}active{% endif %}" href="{% url 'client_dashboard' %}">
+                                    <i class="bi bi-speedometer2"></i> Dashboard
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {% if request.resolver_match.url_name == 'post_project' %}active{% endif %}" href="{% url 'post_project' %}">
+                                    <i class="bi bi-plus-circle"></i> Post Project
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {% if request.resolver_match.url_name == 'my_projects' %}active{% endif %}" href="{% url 'my_projects' %}">
+                                    <i class="bi bi-folder2-open"></i> My Projects
+                                </a>
+                            </li>
+                        {% endif %}
 
-                    {% if user.is_staff or user.is_superuser %}
-                    <li class="nav-item">
-                        <a class="nav-link {% if request.resolver_match.url_name == 'admin_dashboard' %}active{% endif %}"
-                            href="{% url 'admin_dashboard' %}">
-                            <i class="bi bi-shield-lock"></i> Admin Panel
-                        </a>
-                    </li>
-                    {% endif %}
+                        {% if user.is_staff or user.is_superuser %}
+                            <li class="nav-item">
+                                <a class="nav-link {% if request.resolver_match.url_name == 'admin_dashboard' %}active{% endif %}" href="{% url 'admin_dashboard' %}">
+                                    <i class="bi bi-shield-lock"></i> Admin Panel
+                                </a>
+                            </li>
+                        {% endif %}
                     {% endif %}
                 </ul>
 
                 <ul class="navbar-nav ms-auto align-items-lg-center">
                     {% if user.is_authenticated %}
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle d-flex align-items-center gap-2" href="#" id="userDropdown"
-                            role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <span class="badge bg-primary rounded-circle p-2">
-                                {{ user.username|first|upper }}
-                            </span>
-                            <span class="fw-semibold">{{ user.first_name|default:user.username }}</span>
-                            <span class="badge bg-light text-dark border ms-1">{{ user.profile.role|default:"User"
-                                }}</span>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end shadow-sm" aria-labelledby="userDropdown">
-                            <li>
-                                <h6 class="dropdown-header">Signed in as <strong>{{ user.username }}</strong></h6>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="{% url 'student_profile' %}">
-                                    <i class="bi bi-person"></i> View Profile
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="{% url 'edit_profile' %}">
-                                    <i class="bi bi-gear"></i> Edit Profile
-                                </a>
-                            </li>
-                            {% if user.is_staff or user.is_superuser %}
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="/admin/" target="_blank">
-                                    <i class="bi bi-database"></i> Django Admin Site
-                                </a>
-                            </li>
-                            {% endif %}
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li>
-                                <a class="dropdown-item text-danger" href="{% url 'logout' %}">
-                                    <i class="bi bi-box-arrow-right"></i> Logout
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle d-flex align-items-center gap-2" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span class="badge bg-primary rounded-circle p-2">
+                                    {{ user.username|first|upper }}
+                                </span>
+                                <span class="fw-semibold">{{ user.first_name|default:user.username }}</span>
+                                <span class="badge bg-light text-dark border ms-1">{{ user.profile.role|default:"User" }}</span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end shadow-sm" aria-labelledby="userDropdown">
+                                <li>
+                                    <h6 class="dropdown-header">Signed in as <strong>{{ user.username }}</strong></h6>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'student_profile' %}">
+                                        <i class="bi bi-person"></i> View Profile
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'edit_profile' %}">
+                                        <i class="bi bi-gear"></i> Edit Profile
+                                    </a>
+                                </li>
+                                {% if user.is_staff or user.is_superuser %}
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <a class="dropdown-item" href="/admin/" target="_blank">
+                                            <i class="bi bi-database"></i> Django Admin Site
+                                        </a>
+                                    </li>
+                                {% endif %}
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <a class="dropdown-item text-danger" href="{% url 'logout' %}">
+                                        <i class="bi bi-box-arrow-right"></i> Logout
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
                     {% else %}
-                    <li class="nav-item me-2">
-                        <a class="nav-link" href="{% url 'login' %}">
-                            <i class="bi bi-box-arrow-in-right"></i> Log In
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="btn btn-primary px-3" href="{% url 'register' %}">
-                            <i class="bi bi-person-plus"></i> Register
-                        </a>
-                    </li>
+                        <li class="nav-item me-2">
+                            <a class="nav-link" href="{% url 'login' %}">
+                                <i class="bi bi-box-arrow-in-right"></i> Log In
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="btn btn-primary px-3" href="{% url 'register' %}">
+                                <i class="bi bi-person-plus"></i> Register
+                            </a>
+                        </li>
                     {% endif %}
                 </ul>
             </div>
@@ -409,21 +394,21 @@
          =================================================================== -->
     <div class="container mt-3">
         {% if messages %}
-        {% for message in messages %}
-        <div class="alert alert-{{ message.tags|default:'info' }} alert-dismissible fade show shadow-sm" role="alert">
-            {% if message.tags == 'success' %}
-            <i class="bi bi-check-circle-fill me-2"></i>
-            {% elif message.tags == 'danger' or message.tags == 'error' %}
-            <i class="bi bi-exclamation-triangle-fill me-2"></i>
-            {% elif message.tags == 'warning' %}
-            <i class="bi bi-exclamation-circle-fill me-2"></i>
-            {% else %}
-            <i class="bi bi-info-circle-fill me-2"></i>
-            {% endif %}
-            {{ message }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        {% endfor %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags|default:'info' }} alert-dismissible fade show shadow-sm" role="alert">
+                    {% if message.tags == 'success' %}
+                        <i class="bi bi-check-circle-fill me-2"></i>
+                    {% elif message.tags == 'danger' or message.tags == 'error' %}
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                    {% elif message.tags == 'warning' %}
+                        <i class="bi bi-exclamation-circle-fill me-2"></i>
+                    {% else %}
+                        <i class="bi bi-info-circle-fill me-2"></i>
+                    {% endif %}
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
         {% endif %}
     </div>
 
@@ -445,8 +430,7 @@
                         <i class="bi bi-briefcase-fill text-primary"></i> Student Freelance Marketplace
                     </h6>
                     <p class="mb-0 text-muted small">
-                        Empowering college students with real-world freelancing experience and connecting clients with
-                        young talent.
+                        Empowering college students with real-world freelancing experience and connecting clients with young talent.
                     </p>
                 </div>
                 <div class="col-md-6 text-center text-md-end">
@@ -454,8 +438,7 @@
                         Python Full Stack Development Internship Project
                     </p>
                     <p class="mb-0 text-muted small">
-                        Built with <strong>Python</strong>, <strong>Django</strong>, <strong>SQLite</strong>, and
-                        <strong>Bootstrap 5</strong>.
+                        Built with <strong>Python</strong>, <strong>Django</strong>, <strong>SQLite</strong>, and <strong>Bootstrap 5</strong>.
                     </p>
                 </div>
             </div>
@@ -510,5 +493,4 @@
     </script>
     {% block extra_js %}{% endblock %}
 </body>
-
 </html>
