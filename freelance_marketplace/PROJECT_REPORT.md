@@ -199,3 +199,4 @@ System check identified no issues (0 silenced).
 2. **Real-time Messaging:** Integrating Django Channels and WebSockets for direct student-client messaging.
 3. **Rating & Reviews:** Allowing clients to rate students after project completion and write testimonials.
 4. **Portfolio File Uploads:** Adding Amazon S3 / Cloudinary storage for student attachments and deliverables.
+
