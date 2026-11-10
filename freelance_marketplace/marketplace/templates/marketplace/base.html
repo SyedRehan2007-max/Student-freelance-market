@@ -1,0 +1,212 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Student Freelance Marketplace{% endblock %}</title>
+
+    <!-- Bootstrap 5 CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'marketplace/css/style.css' %}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+    <!-- ===================================================================
+         NAVIGATION BAR
+         =================================================================== -->
+    <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'home' %}">
+                <i class="bi bi-briefcase-fill text-primary"></i>
+                <span>StudentLance</span>
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+                    aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" href="{% url 'home' %}">
+                            <i class="bi bi-house-door"></i> Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'projects' %}active{% endif %}" href="{% url 'projects' %}">
+                            <i class="bi bi-search"></i> Browse Projects
+                        </a>
+                    </li>
+
+                    {% if user.is_authenticated %}
+                        {% if user.profile.role == 'Student' %}
+                            <li class="nav-item">
+                                <a class="nav-link {% if request.resolver_match.url_name == 'student_dashboard' %}active{% endif %}" href="{% url 'student_dashboard' %}">
+                                    <i class="bi bi-speedometer2"></i> Dashboard
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {% if request.resolver_match.url_name == 'my_proposals' %}active{% endif %}" href="{% url 'my_proposals' %}">
+                                    <i class="bi bi-file-earmark-text"></i> My Proposals
+                                </a>
+                            </li>
+                        {% elif user.profile.role == 'Client' %}
+                            <li class="nav-item">
+                                <a class="nav-link {% if request.resolver_match.url_name == 'client_dashboard' %}active{% endif %}" href="{% url 'client_dashboard' %}">
+                                    <i class="bi bi-speedometer2"></i> Dashboard
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {% if request.resolver_match.url_name == 'post_project' %}active{% endif %}" href="{% url 'post_project' %}">
+                                    <i class="bi bi-plus-circle"></i> Post Project
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {% if request.resolver_match.url_name == 'my_projects' %}active{% endif %}" href="{% url 'my_projects' %}">
+                                    <i class="bi bi-folder2-open"></i> My Projects
+                                </a>
+                            </li>
+                        {% endif %}
+
+                        {% if user.is_staff or user.is_superuser %}
+                            <li class="nav-item">
+                                <a class="nav-link {% if request.resolver_match.url_name == 'admin_dashboard' %}active{% endif %}" href="{% url 'admin_dashboard' %}">
+                                    <i class="bi bi-shield-lock"></i> Admin Panel
+                                </a>
+                            </li>
+                        {% endif %}
+                    {% endif %}
+                </ul>
+
+                <ul class="navbar-nav ms-auto align-items-lg-center">
+                    {% if user.is_authenticated %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle d-flex align-items-center gap-2" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span class="badge bg-primary rounded-circle p-2">
+                                    {{ user.username|first|upper }}
+                                </span>
+                                <span class="fw-semibold">{{ user.first_name|default:user.username }}</span>
+                                <span class="badge bg-light text-dark border ms-1">{{ user.profile.role|default:"User" }}</span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end shadow-sm" aria-labelledby="userDropdown">
+                                <li>
+                                    <h6 class="dropdown-header">Signed in as <strong>{{ user.username }}</strong></h6>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'student_profile' %}">
+                                        <i class="bi bi-person"></i> View Profile
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'edit_profile' %}">
+                                        <i class="bi bi-gear"></i> Edit Profile
+                                    </a>
+                                </li>
+                                {% if user.is_staff or user.is_superuser %}
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <a class="dropdown-item" href="/admin/" target="_blank">
+                                            <i class="bi bi-database"></i> Django Admin Site
+                                        </a>
+                                    </li>
+                                {% endif %}
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <a class="dropdown-item text-danger" href="{% url 'logout' %}">
+                                        <i class="bi bi-box-arrow-right"></i> Logout
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    {% else %}
+                        <li class="nav-item me-2">
+                            <a class="nav-link" href="{% url 'login' %}">
+                                <i class="bi bi-box-arrow-in-right"></i> Log In
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="btn btn-primary px-3" href="{% url 'register' %}">
+                                <i class="bi bi-person-plus"></i> Register
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===================================================================
+         ALERT MESSAGES CONTAINER
+         =================================================================== -->
+    <div class="container mt-3">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags|default:'info' }} alert-dismissible fade show shadow-sm" role="alert">
+                    {% if message.tags == 'success' %}
+                        <i class="bi bi-check-circle-fill me-2"></i>
+                    {% elif message.tags == 'danger' or message.tags == 'error' %}
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                    {% elif message.tags == 'warning' %}
+                        <i class="bi bi-exclamation-circle-fill me-2"></i>
+                    {% else %}
+                        <i class="bi bi-info-circle-fill me-2"></i>
+                    {% endif %}
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <!-- ===================================================================
+         MAIN CONTENT BLOCK
+         =================================================================== -->
+    <main class="container my-4">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- ===================================================================
+         FOOTER
+         =================================================================== -->
+    <footer class="footer-custom mt-auto">
+        <div class="container">
+            <div class="row gy-3">
+                <div class="col-md-6 text-center text-md-start">
+                    <h6 class="fw-bold text-dark mb-1">
+                        <i class="bi bi-briefcase-fill text-primary"></i> Student Freelance Marketplace
+                    </h6>
+                    <p class="mb-0 text-muted small">
+                        Empowering college students with real-world freelancing experience and connecting clients with young talent.
+                    </p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <p class="mb-1 text-muted small">
+                        Python Full Stack Development Internship Project
+                    </p>
+                    <p class="mb-0 text-muted small">
+                        Built with <strong>Python</strong>, <strong>Django</strong>, <strong>SQLite</strong>, and <strong>Bootstrap 5</strong>.
+                    </p>
+                </div>
+            </div>
+            <hr class="my-3 opacity-25">
+            <div class="text-center text-muted small">
+                &copy; {% now "Y" %} Student Freelance Marketplace. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 Bundle JS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JavaScript -->
+    <script src="{% static 'marketplace/js/script.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
+

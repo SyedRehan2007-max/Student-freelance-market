@@ -1,0 +1,148 @@
+{% extends 'marketplace/base.html' %}
+
+{% block title %}Proposals for {{ project.title }}{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-2">
+        <a href="{% url 'my_projects' %}" class="btn btn-outline-secondary btn-sm mb-2">
+            <i class="bi bi-arrow-left"></i> Back to My Projects
+        </a>
+        <span class="badge bg-light text-primary border px-3 py-2 fs-6 mb-2">
+            Status: {{ project.status }}
+        </span>
+    </div>
+    <h2 class="fw-bold text-dark mb-1">
+        Proposals for: {{ project.title }}
+    </h2>
+    <p class="text-muted mb-0">
+        Review student bids, compare timelines and skillsets, and choose the ideal candidate.
+    </p>
+</div>
+
+<!-- PROJECT INFO SUMMARY CARD -->
+<div class="card custom-card bg-white border-0 shadow-sm p-3 mb-4">
+    <div class="row g-3 text-center text-md-start align-items-center">
+        <div class="col-md-3">
+            <small class="text-muted d-block">Project Budget</small>
+            <strong class="text-success fs-5">₹{{ project.budget }}</strong>
+        </div>
+        <div class="col-md-3">
+            <small class="text-muted d-block">Category</small>
+            <span class="fw-bold">{{ project.category }}</span>
+        </div>
+        <div class="col-md-3">
+            <small class="text-muted d-block">Deadline</small>
+            <span><i class="bi bi-calendar-event"></i> {{ project.deadline|date:"M d, Y" }}</span>
+        </div>
+        <div class="col-md-3 text-md-end">
+            <small class="text-muted d-block">Total Submissions</small>
+            <span class="badge bg-primary fs-6">{{ proposals|length }} Applicant{{ proposals|length|pluralize }}</span>
+        </div>
+    </div>
+</div>
+
+{% if proposals %}
+    <div class="card custom-card bg-white border-0 shadow-sm p-3">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light small text-muted">
+                    <tr>
+                        <th style="min-width: 180px;">Student Freelancer</th>
+                        <th style="min-width: 160px;">Skills</th>
+                        <th style="min-width: 250px;">Pitch / Proposal</th>
+                        <th>Proposed Fee</th>
+                        <th>Est. Time</th>
+                        <th>Status</th>
+                        <th class="text-end" style="min-width: 180px;">Decision</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for proposal in proposals %}
+                        <tr class="{% if proposal.status == 'Accepted' %}table-success{% endif %}">
+                            <td>
+                                <div class="d-flex align-items-center gap-2">
+                                    <div class="stat-icon bg-indigo rounded-circle fs-6" style="width: 36px; height: 36px;">
+                                        {{ proposal.student.username|first|upper }}
+                                    </div>
+                                    <div>
+                                        <a href="{% url 'user_profile' proposal.student.username %}" class="fw-bold text-decoration-none text-dark" target="_blank" title="View student profile">
+                                            {{ proposal.student.first_name }} {{ proposal.student.last_name|default:"" }}
+                                        </a>
+                                        <small class="text-muted d-block">@{{ proposal.student.username }}</small>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                {% if proposal.student.profile.skills %}
+                                    <small class="text-primary fw-medium">
+                                        {{ proposal.student.profile.skills|truncatechars:35 }}
+                                    </small>
+                                {% else %}
+                                    <small class="text-muted">Not specified</small>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <p class="mb-0 small text-dark" style="white-space: pre-line;">
+                                    {{ proposal.description }}
+                                </p>
+                                <small class="text-muted">Submitted {{ proposal.created_at|date:"M d, Y" }}</small>
+                            </td>
+                            <td>
+                                <strong class="text-success fs-6">₹{{ proposal.proposed_amount }}</strong>
+                            </td>
+                            <td>
+                                <span class="badge bg-light text-dark border">
+                                    <i class="bi bi-clock"></i> {{ proposal.estimated_days }} days
+                                </span>
+                            </td>
+                            <td>
+                                {% if proposal.status == 'Accepted' %}
+                                    <span class="badge-status badge-accepted">
+                                        <i class="bi bi-check-circle-fill"></i> Accepted
+                                    </span>
+                                {% elif proposal.status == 'Rejected' %}
+                                    <span class="badge-status badge-rejected">
+                                        <i class="bi bi-x-circle-fill"></i> Rejected
+                                    </span>
+                                {% else %}
+                                    <span class="badge-status badge-pending">
+                                        <i class="bi bi-hourglass-split"></i> Pending
+                                    </span>
+                                {% endif %}
+                            </td>
+                            <td class="text-end">
+                                {% if proposal.status == 'Pending' %}
+                                    <div class="d-inline-flex gap-1">
+                                        <a href="{% url 'accept_proposal' proposal.id %}" class="btn btn-sm btn-success btn-confirm-accept" data-student="{{ proposal.student.first_name|default:proposal.student.username }}" title="Accept this proposal">
+                                            <i class="bi bi-check-lg"></i> Accept
+                                        </a>
+                                        <a href="{% url 'reject_proposal' proposal.id %}" class="btn btn-sm btn-outline-danger" title="Reject this proposal">
+                                            <i class="bi bi-x-lg"></i> Reject
+                                        </a>
+                                    </div>
+                                {% elif proposal.status == 'Accepted' %}
+                                    <span class="badge bg-success-subtle text-success border border-success px-3 py-2 rounded-pill fw-semibold">
+                                        <i class="bi bi-check-circle"></i> Assigned Freelancer
+                                    </span>
+                                {% else %}
+                                    <span class="text-muted small">Rejected</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% else %}
+    <div class="card p-5 text-center bg-white border-0 shadow-sm">
+        <i class="bi bi-inbox text-muted fs-1 mb-3"></i>
+        <h4 class="fw-bold">No Proposals Received Yet</h4>
+        <p class="text-muted">
+            Students have not applied for this project yet. Give it some time or ensure your project details and budget are attractive!
+        </p>
+    </div>
+{% endif %}
+{% endblock %}
+

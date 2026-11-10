@@ -1,0 +1,72 @@
+{% extends 'marketplace/base.html' %}
+
+{% block title %}Sign In - Student Freelance Marketplace{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center py-4">
+    <div class="col-md-6 col-lg-5">
+        <div class="card custom-card border-0 shadow p-4 bg-white rounded-4">
+            <div class="text-center mb-4">
+                <div class="stat-icon bg-indigo mx-auto mb-2" style="width: 55px; height: 55px;">
+                    <i class="bi bi-box-arrow-in-right"></i>
+                </div>
+                <h3 class="fw-bold mb-1">Welcome Back</h3>
+                <p class="text-muted small">Sign in to your Student or Client account</p>
+            </div>
+
+            <form method="POST" novalidate>
+                {% csrf_token %}
+
+                {% if form.non_field_errors %}
+                    <div class="alert alert-danger py-2 small">
+                        {% for error in form.non_field_errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <div class="mb-3">
+                    <label for="id_username" class="form-label fw-semibold small">Username</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light text-muted"><i class="bi bi-person"></i></span>
+                        {{ form.username }}
+                    </div>
+                    {% if form.username.errors %}
+                        <div class="text-danger small mt-1">{{ form.username.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3">
+                    <label for="id_login_password" class="form-label fw-semibold small">Password</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light text-muted"><i class="bi bi-lock"></i></span>
+                        {{ form.password }}
+                        <button class="btn btn-outline-secondary toggle-password-btn" type="button" data-target="id_login_password">
+                            <i class="bi bi-eye"></i> Show
+                        </button>
+                    </div>
+                    {% if form.password.errors %}
+                        <div class="text-danger small mt-1">{{ form.password.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="d-grid mt-4">
+                    <button type="submit" class="btn btn-primary btn-lg fs-6 fw-semibold">
+                        <i class="bi bi-box-arrow-in-right"></i> Sign In
+                    </button>
+                </div>
+            </form>
+
+            <div class="text-center mt-4 pt-3 border-top">
+                <p class="text-muted small mb-0">
+                    Don't have an account? 
+                    <a href="{% url 'register' %}" class="fw-semibold text-primary text-decoration-none">
+                        Create an Account
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

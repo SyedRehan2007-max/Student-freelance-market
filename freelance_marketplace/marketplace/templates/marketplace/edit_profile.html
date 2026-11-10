@@ -1,0 +1,86 @@
+{% extends 'marketplace/base.html' %}
+
+{% block title %}Edit Profile - Student Freelance Marketplace{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card custom-card border-0 shadow-sm p-4 bg-white">
+            <div class="d-flex justify-content-between align-items-center pb-3 border-bottom mb-4">
+                <div>
+                    <h3 class="fw-bold mb-1">Edit Your Profile</h3>
+                    <p class="text-muted small mb-0">Update your personal details, education, and freelance skills</p>
+                </div>
+                <span class="badge bg-light text-primary border px-3 py-2 fs-6">
+                    Role: {{ profile.role }}
+                </span>
+            </div>
+
+            <form method="POST" novalidate>
+                {% csrf_token %}
+
+                {% if form.non_field_errors %}
+                    <div class="alert alert-danger py-2 small">
+                        {% for error in form.non_field_errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold small">First Name</label>
+                        {{ form.first_name }}
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold small">Last Name</label>
+                        {{ form.last_name }}
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold small">Email Address</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light text-muted"><i class="bi bi-envelope"></i></span>
+                        {{ form.email }}
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold small">Education / Degree</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light text-muted"><i class="bi bi-mortarboard"></i></span>
+                        {{ form.education }}
+                    </div>
+                    <div class="form-text small text-muted">e.g., B.Tech in Computer Science, Year 3</div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold small">Skills (comma-separated)</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light text-muted"><i class="bi bi-tools"></i></span>
+                        {{ form.skills }}
+                    </div>
+                    <div class="form-text small text-muted">e.g., Python, Django, HTML, Bootstrap, Figma, Content Writing</div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-semibold small">About Me / Bio</label>
+                    {{ form.bio }}
+                    <div class="form-text small text-muted">Describe your experience, projects, or client requirements.</div>
+                </div>
+
+                <div class="d-flex justify-content-end gap-2">
+                    <a href="{% url 'student_profile' %}" class="btn btn-outline-secondary">
+                        Cancel
+                    </a>
+                    <button type="submit" class="btn btn-primary px-4 fw-semibold">
+                        <i class="bi bi-save"></i> Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

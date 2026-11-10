@@ -1,0 +1,129 @@
+{% extends 'marketplace/base.html' %}
+
+{% block title %}Create Account - Student Freelance Marketplace{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center py-4">
+    <div class="col-md-8 col-lg-6">
+        <div class="card custom-card border-0 shadow p-4 bg-white rounded-4">
+            <div class="text-center mb-4">
+                <div class="stat-icon bg-indigo mx-auto mb-2" style="width: 55px; height: 55px;">
+                    <i class="bi bi-person-plus"></i>
+                </div>
+                <h3 class="fw-bold mb-1">Create an Account</h3>
+                <p class="text-muted small">Join as a student freelancer or hire talent as a client</p>
+            </div>
+
+            <form method="POST" novalidate>
+                {% csrf_token %}
+
+                {% if form.non_field_errors %}
+                    <div class="alert alert-danger py-2 small">
+                        {% for error in form.non_field_errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <div class="row g-2 mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold small">First Name <span class="text-danger">*</span></label>
+                        {{ form.first_name }}
+                        {% if form.first_name.errors %}
+                            <div class="text-danger small mt-1">{{ form.first_name.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold small">Last Name <span class="text-danger">*</span></label>
+                        {{ form.last_name }}
+                        {% if form.last_name.errors %}
+                            <div class="text-danger small mt-1">{{ form.last_name.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold small">Username <span class="text-danger">*</span></label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light text-muted"><i class="bi bi-at"></i></span>
+                        {{ form.username }}
+                    </div>
+                    {% if form.username.errors %}
+                        <div class="text-danger small mt-1">{{ form.username.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold small">Email Address <span class="text-danger">*</span></label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light text-muted"><i class="bi bi-envelope"></i></span>
+                        {{ form.email }}
+                    </div>
+                    {% if form.email.errors %}
+                        <div class="text-danger small mt-1">{{ form.email.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold small">I want to join as: <span class="text-danger">*</span></label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light text-muted"><i class="bi bi-person-badge"></i></span>
+                        {{ form.role }}
+                    </div>
+                    <div class="form-text small text-muted">
+                        Select <strong>Student</strong> to browse gigs and submit proposals, or <strong>Client</strong> to post projects.
+                    </div>
+                    {% if form.role.errors %}
+                        <div class="text-danger small mt-1">{{ form.role.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold small">Password <span class="text-danger">*</span></label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light text-muted"><i class="bi bi-lock"></i></span>
+                        {{ form.password }}
+                        <button class="btn btn-outline-secondary toggle-password-btn" type="button" data-target="id_password">
+                            <i class="bi bi-eye"></i> Show
+                        </button>
+                    </div>
+                    <div class="form-text small text-muted">{{ form.password.help_text }}</div>
+                    {% if form.password.errors %}
+                        <div class="text-danger small mt-1">{{ form.password.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-semibold small">Confirm Password <span class="text-danger">*</span></label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light text-muted"><i class="bi bi-lock-fill"></i></span>
+                        {{ form.confirm_password }}
+                        <button class="btn btn-outline-secondary toggle-password-btn" type="button" data-target="id_confirm_password">
+                            <i class="bi bi-eye"></i> Show
+                        </button>
+                    </div>
+                    {% if form.confirm_password.errors %}
+                        <div class="text-danger small mt-1">{{ form.confirm_password.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary btn-lg fs-6 fw-semibold">
+                        <i class="bi bi-check-circle"></i> Complete Registration
+                    </button>
+                </div>
+            </form>
+
+            <div class="text-center mt-4 pt-3 border-top">
+                <p class="text-muted small mb-0">
+                    Already registered? 
+                    <a href="{% url 'login' %}" class="fw-semibold text-primary text-decoration-none">
+                        Sign In here
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

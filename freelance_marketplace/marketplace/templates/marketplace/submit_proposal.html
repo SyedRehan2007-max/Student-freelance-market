@@ -1,0 +1,84 @@
+{% extends 'marketplace/base.html' %}
+
+{% block title %}Submit Proposal - {{ project.title }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <!-- PROJECT SUMMARY HEADER -->
+        <div class="card custom-card border-0 shadow-sm p-4 bg-white mb-4">
+            <span class="badge bg-light text-primary border align-self-start mb-2">{{ project.category }}</span>
+            <h3 class="fw-bold text-dark mb-2">{{ project.title }}</h3>
+            <div class="d-flex flex-wrap gap-3 text-muted small">
+                <span>Client Budget: <strong class="text-success fs-6">₹{{ project.budget }}</strong></span>
+                <span>Deadline: <strong>{{ project.deadline|date:"M d, Y" }}</strong></span>
+                <span>Client: <strong>{{ project.client.first_name|default:project.client.username }}</strong></span>
+            </div>
+        </div>
+
+        <!-- PROPOSAL SUBMISSION FORM -->
+        <div class="card custom-card border-0 shadow-sm p-4 bg-white">
+            <h4 class="fw-bold mb-1">Your Proposal Details</h4>
+            <p class="text-muted small mb-4">Provide a competitive price, realistic timeline, and compelling pitch</p>
+
+            <form method="POST" novalidate>
+                {% csrf_token %}
+
+                {% if form.non_field_errors %}
+                    <div class="alert alert-danger py-2 small">
+                        {% for error in form.non_field_errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold small">Proposed Amount (₹) <span class="text-danger">*</span></label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light text-muted">₹</span>
+                            {{ form.proposed_amount }}
+                        </div>
+                        <div class="form-text small text-muted">Client budget is ₹{{ project.budget }}</div>
+                        {% if form.proposed_amount.errors %}
+                            <div class="text-danger small mt-1">{{ form.proposed_amount.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold small">Estimated Time (Days) <span class="text-danger">*</span></label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light text-muted"><i class="bi bi-clock"></i></span>
+                            {{ form.estimated_days }}
+                        </div>
+                        <div class="form-text small text-muted">Number of days to deliver full work</div>
+                        {% if form.estimated_days.errors %}
+                            <div class="text-danger small mt-1">{{ form.estimated_days.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-semibold small">Proposal Description / Pitch <span class="text-danger">*</span></label>
+                    {{ form.description }}
+                    <div class="form-text small text-muted">
+                        Explain why the client should select you. Detail your past experience, tools you will use, and your approach.
+                    </div>
+                    {% if form.description.errors %}
+                        <div class="text-danger small mt-1">{{ form.description.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="d-flex justify-content-end gap-2">
+                    <a href="{% url 'project_detail' project.id %}" class="btn btn-outline-secondary">
+                        Cancel
+                    </a>
+                    <button type="submit" class="btn btn-primary px-4 fw-semibold">
+                        <i class="bi bi-send-fill"></i> Submit Proposal
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
