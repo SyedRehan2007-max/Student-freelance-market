@@ -11,8 +11,252 @@
     <!-- Bootstrap Icons CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
 
-    <!-- Custom CSS -->
+    <!-- Custom CSS File -->
     <link rel="stylesheet" href="{% static 'marketplace/css/style.css' %}">
+
+    <!-- Embedded Core CSS: Guarantees full styling on Cloud Hosting / Render even when external static files are delayed -->
+    <style>
+        :root {
+            --primary-color: #4f46e5;
+            --primary-hover: #4338ca;
+            --primary-light: #e0e7ff;
+            --secondary-color: #0ea5e9;
+            --dark-text: #1e293b;
+            --muted-text: #64748b;
+            --body-bg: #f8fafc;
+            --card-bg: #ffffff;
+            --border-color: #e2e8f0;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--body-bg);
+            color: var(--dark-text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        main { flex: 1; }
+
+        .navbar-custom {
+            background-color: #ffffff;
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            color: var(--primary-color) !important;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.25rem;
+        }
+
+        .navbar-nav .nav-link {
+            color: var(--dark-text);
+            font-weight: 500;
+            padding: 0.5rem 0.85rem;
+            transition: color 0.2s ease;
+        }
+
+        .navbar-nav .nav-link:hover,
+        .navbar-nav .nav-link.active {
+            color: var(--primary-color);
+        }
+
+        /* Hero Section Gradient - Matches Image 1 */
+        .hero-section {
+            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #4338ca 100%) !important;
+            color: #ffffff !important;
+            padding: 4.5rem 0;
+            border-radius: 1rem !important;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 10px 25px -5px rgba(49, 46, 129, 0.3);
+        }
+
+        .hero-section h1 {
+            font-size: 2.75rem;
+            font-weight: 800;
+            line-height: 1.2;
+            color: #ffffff !important;
+        }
+
+        .hero-section p {
+            font-size: 1.15rem;
+            color: #e0e7ff !important;
+            max-width: 650px;
+        }
+
+        .custom-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 0.75rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .custom-card:hover {
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .card-project {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-project .project-description {
+            color: var(--muted-text);
+            font-size: 0.925rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .stat-card {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 0.75rem;
+            padding: 1.25rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 0.6rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .stat-icon.bg-indigo {
+            background-color: #e0e7ff !important;
+            color: #4338ca !important;
+        }
+
+        .stat-icon.bg-emerald {
+            background-color: #d1fae5 !important;
+            color: #059669 !important;
+        }
+
+        .stat-icon.bg-amber {
+            background-color: #fef3c7 !important;
+            color: #d97706 !important;
+        }
+
+        .stat-icon.bg-rose {
+            background-color: #ffe4e6 !important;
+            color: #e11d48 !important;
+        }
+
+        .stat-value {
+            font-size: 1.85rem;
+            font-weight: 700;
+            line-height: 1;
+            color: var(--dark-text);
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--muted-text);
+            margin-top: 0.25rem;
+            font-weight: 500;
+        }
+
+        .badge-status {
+            padding: 0.35rem 0.65rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border-radius: 2rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .badge-open {
+            background-color: #dcfce7;
+            color: #15803d;
+        }
+
+        .badge-assigned {
+            background-color: #fef3c7;
+            color: #b45309;
+        }
+
+        .badge-completed {
+            background-color: #e0e7ff;
+            color: #4338ca;
+        }
+
+        .badge-closed {
+            background-color: #f1f5f9;
+            color: #475569;
+        }
+
+        .badge-pending {
+            background-color: #fef3c7;
+            color: #b45309;
+        }
+
+        .badge-accepted {
+            background-color: #dcfce7;
+            color: #15803d;
+        }
+
+        .badge-rejected {
+            background-color: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .btn-primary:hover,
+        .btn-primary:focus {
+            background-color: var(--primary-hover);
+            border-color: var(--primary-hover);
+        }
+
+        .btn-outline-primary {
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .btn-outline-primary:hover {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            color: #ffffff;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(79, 70, 229, 0.15);
+        }
+
+        .footer-custom {
+            background-color: #ffffff;
+            border-top: 1px solid var(--border-color);
+            padding: 2rem 0;
+            margin-top: 3.5rem;
+            color: var(--muted-text);
+            font-size: 0.9rem;
+        }
+    </style>
     {% block extra_css %}{% endblock %}
 </head>
 <body>
@@ -206,7 +450,44 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Custom JavaScript -->
     <script src="{% static 'marketplace/js/script.js' %}"></script>
+    <script>
+        // Fallback JavaScript for interactive elements (guaranteed to run on Cloud/Render)
+        document.addEventListener('DOMContentLoaded', function () {
+            // Password Visibility Toggle
+            document.querySelectorAll('.toggle-password-btn').forEach(function (button) {
+                button.addEventListener('click', function () {
+                    const target = document.getElementById(button.getAttribute('data-target'));
+                    if (target) {
+                        if (target.type === 'password') {
+                            target.type = 'text';
+                            button.innerHTML = '<i class="bi bi-eye-slash"></i> Hide';
+                        } else {
+                            target.type = 'password';
+                            button.innerHTML = '<i class="bi bi-eye"></i> Show';
+                        }
+                    }
+                });
+            });
+
+            // Project delete confirmation
+            document.querySelectorAll('.btn-confirm-delete').forEach(function (btn) {
+                btn.addEventListener('click', function (e) {
+                    if (!confirm('Are you sure you want to delete "' + (btn.getAttribute('data-title') || 'this project') + '"?')) {
+                        e.preventDefault();
+                    }
+                });
+            });
+
+            // Proposal accept confirmation
+            document.querySelectorAll('.btn-confirm-accept').forEach(function (btn) {
+                btn.addEventListener('click', function (e) {
+                    if (!confirm('Are you sure you want to accept the proposal from ' + (btn.getAttribute('data-student') || 'this student') + '?')) {
+                        e.preventDefault();
+                    }
+                });
+            });
+        });
+    </script>
     {% block extra_js %}{% endblock %}
 </body>
 </html>
-
